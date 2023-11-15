@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaWil", "CinemaWil.csproj", "{7DC2E622-6A37-4E19-91AD-B2D18FF418CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infractructure", "..\Infractructure\Infractructure.csproj", "{5B38F1C4-5B0E-46CA-A942-3747DAC5DA85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Domain\Domain.csproj", "{CFDE0D86-3CC8-4FA2-9D96-D8F63E3CEA52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DC2E622-6A37-4E19-91AD-B2D18FF418CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC2E622-6A37-4E19-91AD-B2D18FF418CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC2E622-6A37-4E19-91AD-B2D18FF418CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC2E622-6A37-4E19-91AD-B2D18FF418CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B38F1C4-5B0E-46CA-A942-3747DAC5DA85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B38F1C4-5B0E-46CA-A942-3747DAC5DA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B38F1C4-5B0E-46CA-A942-3747DAC5DA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B38F1C4-5B0E-46CA-A942-3747DAC5DA85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFDE0D86-3CC8-4FA2-9D96-D8F63E3CEA52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFDE0D86-3CC8-4FA2-9D96-D8F63E3CEA52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFDE0D86-3CC8-4FA2-9D96-D8F63E3CEA52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFDE0D86-3CC8-4FA2-9D96-D8F63E3CEA52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3BF91E23-A565-4907-8113-1E80A4627A9D}
+	EndGlobalSection
+EndGlobal
