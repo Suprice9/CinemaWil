@@ -1,4 +1,5 @@
-﻿using Domain.Interface.JWT;
+﻿using Domain.Dtos.JWT;
+using Domain.Interface.JWT;
 using Domain.Models.JWT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -21,18 +22,18 @@ namespace Infractructure.Services.JWT
             _configuration = configuration;
         }
 
-        public User AutenticateUser(User user)
+        public Auth AutenticateUser(AuthDto user)
         {
-            User _user = null;
+            Auth _user = null;
             if (user.Name=="admin" && user.PassCode=="admin")
             {
-               _user=new User { Admin = true };
+               _user=new Auth { Admin = true };
             }
 
             return _user; 
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(Auth user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

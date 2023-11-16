@@ -1,4 +1,5 @@
-﻿using Domain.Interface.JWT;
+﻿using Domain.Dtos.JWT;
+using Domain.Interface.JWT;
 using Domain.Models.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,20 +19,20 @@ namespace CinemaWil.Controllers.JWT
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(AuthDto auth)
         {
             try
             {
                 IActionResult response = Unauthorized();
 
-                var userAutentication = _authServices.AutenticateUser(user);
+                var userAutentication = _authServices.AutenticateUser(auth);
 
                 if (userAutentication != null && userAutentication.Admin==true)
                 {
                     var token = _authServices.GenerateToken(userAutentication);
-                    response = Ok(new { token = token });
+                    response = Ok(new { token = token } );
                 }
-                return response;
+                return response ;
             }
             catch (Exception e)
             {

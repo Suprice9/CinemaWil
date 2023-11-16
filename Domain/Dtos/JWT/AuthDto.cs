@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models.JWT
+namespace Domain.Dtos.JWT
 {
-    public  class User
+    public class AuthDto
     {
         public string Name { get; set; }
 
         public string PassCode { get; set; }
-
-        public bool Admin { get; set; } 
     }
 }

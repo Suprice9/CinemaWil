@@ -1,4 +1,5 @@
-﻿using Domain.Models.JWT;
+﻿using Domain.Dtos.JWT;
+using Domain.Models.JWT;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Domain.Interface.JWT
 {
     public interface IAuthServices
     {
-        User AutenticateUser(User user);
+        Auth AutenticateUser(AuthDto user);
 
-        string GenerateToken(User user);
+        string GenerateToken(Auth user);
     }
 }
