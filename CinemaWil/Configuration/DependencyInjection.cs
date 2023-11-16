@@ -1,5 +1,7 @@
 ﻿using Domain.Interface;
+using Domain.Interface.JWT;
 using Infractructure.Services;
+using Infractructure.Services.JWT;
 
 namespace CinemaWil.Configuration
 {
@@ -10,6 +12,7 @@ namespace CinemaWil.Configuration
             services.AddScoped<IActorServices, ActorServices>();
             services.AddScoped<IBillboardServices, BillboardServices>();
             services.AddScoped<IMovieServices, MovieServices>();
+            services.AddScoped<IAuthServices, AuthServices>();
         }
     }
 }

@@ -2,10 +2,12 @@
 using Domain.Interface;
 using Infractructure.Data;
 using Infractructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaWil.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BillboardController : Controller
@@ -19,6 +21,7 @@ namespace CinemaWil.Controllers
             _billboardServices = billboardServices;
         }
 
+        [Authorize]
         [HttpGet]
         //Documentar
         public async Task<IActionResult> GetBillboard()
@@ -26,7 +29,7 @@ namespace CinemaWil.Controllers
             return Ok(await _billboardServices.GetBillboard());
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddBillboard(BillboardDto addBillboard)
         {
@@ -52,6 +55,7 @@ namespace CinemaWil.Controllers
 
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteBillboard(int Code)
         {

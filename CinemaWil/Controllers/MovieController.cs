@@ -2,10 +2,12 @@
 using Domain.Interface;
 using Infractructure.Data;
 using Infractructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaWil.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MovieController : ControllerBase
@@ -19,6 +21,7 @@ namespace CinemaWil.Controllers
             _movieServices = movieServices;
         }
 
+        [Authorize]
         [HttpGet]
         //Documentar
         public async Task<IActionResult> GetMovies()
@@ -26,6 +29,7 @@ namespace CinemaWil.Controllers
             return Ok(await _movieServices.GetMovies());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieDto addMovie)
         {
@@ -51,6 +55,7 @@ namespace CinemaWil.Controllers
 
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteMovie(int Code)
         {

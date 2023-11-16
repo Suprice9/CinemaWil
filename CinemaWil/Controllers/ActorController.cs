@@ -1,11 +1,13 @@
 ﻿using Domain.Dtos;
 using Domain.Interface;
 using Infractructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace CinemaWil.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ActorController : ControllerBase
@@ -19,6 +21,7 @@ namespace CinemaWil.Controllers
             _actorServices = actorServices;
         }
 
+        [Authorize]
         [HttpGet]
         //Documentar
         public async Task<IActionResult> GetActors()
@@ -27,6 +30,7 @@ namespace CinemaWil.Controllers
             return Ok(await _actorServices.GetActors());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddActor(ActorDto addActor)
         {
@@ -52,6 +56,7 @@ namespace CinemaWil.Controllers
 
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteActor(int Code)
         {
