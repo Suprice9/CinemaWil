@@ -12,6 +12,8 @@ namespace Domain.Interface
     {
         Task<List<Billboard>> GetBillboard();
         Task MapBillboardObject(BillboardDto billboardD);
+
+        Task<string> UpdateBillboard(int e, BillboardDto billboard);
         Task<string> DeleteBillboard(int id);
     }
 }

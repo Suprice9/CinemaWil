@@ -36,6 +36,27 @@ namespace Infractructure.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<string> UpdateMovie(int e, MovieDto movie)
+        {
+
+            var movieDb = await _dbContext.Movie.FindAsync(e);
+            if (movieDb != null)
+            {
+                movieDb.Title = movie.Title;
+                movieDb.Genre = movie.Genre;
+
+                _dbContext.Update(movieDb);
+
+                await _dbContext.SaveChangesAsync();
+
+                return "Actualizado exitosamente";
+            }
+            else
+            {
+                return "Pelicula no encontrada";
+            }
+        }
+
         public async Task<string> DeleteMovie(int id)
         {
             var movie = await _dbContext.Movie.FindAsync(id);
@@ -51,5 +72,7 @@ namespace Infractructure.Services
                 return "Hubo un error";
             }
         }
+
+       
     }
 }

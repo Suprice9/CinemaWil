@@ -57,6 +57,35 @@ namespace CinemaWil.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        //Documentar
+        public async Task<IActionResult> UpdateActor(int code,ActorDto actor)
+        {
+            try
+            {
+               var result= await _actorServices.UpdateActor(code, actor);
+
+                if (result != "Actor no encontrado")
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    {
+                        return BadRequest(result);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e);
+            }
+        }
+
+
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteActor(int Code)
         {

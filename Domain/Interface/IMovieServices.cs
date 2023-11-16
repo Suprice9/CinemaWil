@@ -12,6 +12,8 @@ namespace Domain.Interface
     {
         Task<List<Movie>> GetMovies();
         Task MapMovieObject(MovieDto movieD);
+
+        Task<string> UpdateMovie(int e, MovieDto movie);
         Task<string> DeleteMovie(int id);
     }
 }

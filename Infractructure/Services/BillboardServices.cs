@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,26 @@ namespace Infractructure.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<string> UpdateBillboard(int e, BillboardDto billboard)
+        {
+            var billboardDb = await _dbContext.Billboard.FindAsync(e);
+            if (billboardDb != null)
+            {
+                billboardDb.ActorsId = billboard.ActorsId;
+                billboardDb.MoviesId = billboard.MoviesId;
+
+                _dbContext.Update(billboardDb);
+
+                await _dbContext.SaveChangesAsync();
+
+                return "Actualizado exitosamente";
+            }
+            else
+            {
+                return "Cartelera no encontrada";
+            }
+        }
+
         public async Task<string> DeleteBillboard(int id)
         {
             var billboard = await _dbContext.Billboard.FindAsync(id);
@@ -52,5 +73,6 @@ namespace Infractructure.Services
             }
         }
 
+        
     }
 }

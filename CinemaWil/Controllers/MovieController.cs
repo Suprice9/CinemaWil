@@ -56,6 +56,34 @@ namespace CinemaWil.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        //Documentar
+        public async Task<IActionResult> UpdateBillboard(int code, MovieDto movie)
+        {
+            try
+            {
+                var result = await _movieServices.UpdateMovie(code, movie);
+
+                if (result != "Pelicula no encontrada")
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    {
+                        return BadRequest(result);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e);
+            }
+        }
+
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteMovie(int Code)
         {

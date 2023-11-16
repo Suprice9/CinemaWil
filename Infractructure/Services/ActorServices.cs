@@ -34,6 +34,29 @@ namespace Infractructure.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<string> UpdateActor(int e, ActorDto actor)
+        {
+            var actorDb = await _dbContext.Actor.FindAsync(e);
+            if (actorDb != null) {
+                actorDb.Name = actor.Name;
+                actorDb.Nationality = actor.Nationality;
+                actorDb.Gender = actor.Gender;
+                actorDb.Birthday = actor.Birthday;
+
+                _dbContext.Update(actorDb);
+                
+                await _dbContext.SaveChangesAsync();
+
+                return "Actualizado exitosamente"; 
+            }
+            else
+            {
+                return "Actor no encontrado";
+            }
+
+
+        }
+
         public async Task<string> DeleteActor(int id)
         {
             var actor = await _dbContext.Actor.FindAsync(id);
@@ -50,5 +73,6 @@ namespace Infractructure.Services
             }
         }
 
+       
     }
 }

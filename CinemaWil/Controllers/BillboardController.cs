@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Interface;
+using Domain.Models;
 using Infractructure.Data;
 using Infractructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -54,6 +55,35 @@ namespace CinemaWil.Controllers
             }
 
         }
+
+        [Authorize]
+        [HttpPut]
+        //Documentar
+        public async Task<IActionResult> UpdateBillboard(int code, BillboardDto billboard)
+        {
+            try
+            {
+                var result = await _billboardServices.UpdateBillboard(code, billboard);
+
+                if (result != "Cartelera no encontrada")
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    {
+                        return BadRequest(result);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e);
+            }
+        }
+
 
         [Authorize]
         [HttpDelete]
