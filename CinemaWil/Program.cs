@@ -2,6 +2,7 @@ using CinemaWil.Configuration;
 using Infractructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,10 @@ builder.Services.AddSwaggerGen(c=>
         Title = "CinemaWil",
         Version = "v1"
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -63,8 +68,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c=>
+    {
+        c.SerializeAsV2 = true;
+    });
+    app.UseSwaggerUI(c=>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json","CinemaWill v1");
+
+    });
 }
 
 app.UseHttpsRedirection();

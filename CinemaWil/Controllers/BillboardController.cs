@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaWil.Controllers
 {
     [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class BillboardController : Controller
@@ -22,15 +23,23 @@ namespace CinemaWil.Controllers
             _billboardServices = billboardServices;
         }
 
-        [Authorize]
+
+        /// <response code="200">OK. Se retornaron correctamente las carteleras.</response>        
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="524">DatabaseEmpty. La Base de datos esta vacia.</response>
         [HttpGet]
-        //Documentar
         public async Task<IActionResult> GetBillboard()
         {
             return Ok(await _billboardServices.GetBillboard());
         }
 
-        [Authorize]
+        /// <summary>
+        /// Crear una cartelera.
+        /// </summary>
+        /// <response code="200">OK. Se Creo correctamente la cartelera.</response>        
+        /// <response code="400">BadRequest. Se han encontrado datos incorrectos.</response>
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpPost]
         public async Task<IActionResult> AddBillboard(BillboardDto addBillboard)
         {
@@ -43,7 +52,7 @@ namespace CinemaWil.Controllers
                 }
                 else
                 {
-                    await _billboardServices.MapBillboardObject(addBillboard);
+                    await _billboardServices.AddBillboardObject(addBillboard);
                 }
                 return Ok("Se ha creado correctamente");
 
@@ -56,9 +65,16 @@ namespace CinemaWil.Controllers
 
         }
 
-        [Authorize]
+        /// <summary>
+        /// Modificar cartelera
+        /// </summary>
+        /// <param name="code">id de cartelera.</param>
+        /// <param name="billboard">Datos requeridos para la modificacion de una cartelera</param>
+        /// <response code="200">OK. Se modifico correctamente la cartelera</response>        
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="404">NotFound. El id de la cartelera no existe.</response>        
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpPut]
-        //Documentar
         public async Task<IActionResult> UpdateBillboard(int code, BillboardDto billboard)
         {
             try
@@ -85,7 +101,14 @@ namespace CinemaWil.Controllers
         }
 
 
-        [Authorize]
+        /// <summary>
+        /// Eliminar cartelera.
+        /// </summary>
+        /// <param name="Code">Datos requeridos para la eliminacion de una cartelera.</param>
+        /// <response code="200">OK. Se elimino correctamente la cartelera.</response> 
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="404">NotFound. La cartelera no existe</response>        
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpDelete]
         public async Task<IActionResult> DeleteBillboard(int Code)
         {

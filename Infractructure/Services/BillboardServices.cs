@@ -30,11 +30,15 @@ namespace Infractructure.Services
             return billboards;
         }
 
-        public async Task MapBillboardObject(BillboardDto billboardD)
+        public async Task AddBillboardObject(BillboardDto billboard)
         {
-            var result = billboardD.Adapt<Billboard>();
-            await _dbContext.Billboard.AddAsync(result);
-            await _dbContext.SaveChangesAsync();
+            //revisar
+            var movieId = await _dbContext.Movie.FindAsync(billboard.MoviesId);
+
+            var actorId = await _dbContext.Actor.FindAsync(billboard.ActorsId);
+
+            _dbContext.Billboard.FromSqlRaw($"AddMoviesAndActors {movieId}, {actorId}");
+
         }
 
         public async Task<string> UpdateBillboard(int e, BillboardDto billboard)

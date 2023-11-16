@@ -8,6 +8,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 namespace CinemaWil.Controllers
 {
     [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ActorController : ControllerBase
@@ -21,16 +22,24 @@ namespace CinemaWil.Controllers
             _actorServices = actorServices;
         }
 
-        [Authorize]
+        /// <response code="200">OK. Se retornaron correctamente los actores.</response>        
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="524">DatabaseEmpty. La Base de datos esta vacia.</response>
         [HttpGet]
-        //Documentar
         public async Task<IActionResult> GetActors()
         {
 
             return Ok(await _actorServices.GetActors());
         }
 
-        [Authorize]
+
+        /// <summary>
+        /// Crear un actor.
+        /// </summary>
+        /// <response code="200">OK. Se Creo correctamente el actor.</response>        
+        /// <response code="400">BadRequest. Se han encontrado datos incorrectos.</response>
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpPost]
         public async Task<IActionResult> AddActor(ActorDto addActor)
         {
@@ -56,7 +65,15 @@ namespace CinemaWil.Controllers
 
         }
 
-        [Authorize]
+        /// <summary>
+        /// Modificar actor
+        /// </summary>
+        /// <param name="code">id de cartelera.</param>
+        /// <param name="actor">Datos requeridos para la modificacion de una cartelera</param>
+        /// <response code="200">OK. Se modifico correctamente el actor</response>        
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="404">NotFound. El id del actor no existe.</response>        
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpPut]
         //Documentar
         public async Task<IActionResult> UpdateActor(int code,ActorDto actor)
@@ -85,7 +102,14 @@ namespace CinemaWil.Controllers
         }
 
 
-        [Authorize]
+        /// <summary>
+        /// Eliminar actor.
+        /// </summary>
+        /// <param name="Code">Datos requeridos para la eliminacion de un actor.</param>
+        /// <response code="200">OK. Se elimino correctamente la cartelera.</response> 
+        /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="404">NotFound.El actor no existe</response>        
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpDelete]
         public async Task<IActionResult> DeleteActor(int Code)
         {

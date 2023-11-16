@@ -11,7 +11,7 @@ namespace Domain.Interface
     public interface IBillboardServices
     {
         Task<List<Billboard>> GetBillboard();
-        Task MapBillboardObject(BillboardDto billboardD);
+        Task AddBillboardObject(BillboardDto billboardDto);
 
         Task<string> UpdateBillboard(int e, BillboardDto billboard);
         Task<string> DeleteBillboard(int id);
