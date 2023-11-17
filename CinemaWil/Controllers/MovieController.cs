@@ -22,6 +22,9 @@ namespace CinemaWil.Controllers
             _movieServices = movieServices;
         }
 
+        /// <summary>
+        /// Retorna todas las peliculas.
+        /// </summary>
         /// <response code="200">OK. Se retornaron correctamente las peliculas.</response>        
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="524">DatabaseEmpty. La Base de datos esta vacia.</response>

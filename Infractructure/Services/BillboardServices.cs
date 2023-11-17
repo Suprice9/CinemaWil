@@ -25,21 +25,29 @@ namespace Infractructure.Services
             return billboards;
         }
 
-        public async Task<int>AddBillboardObject(BillboardDto billboard)
+        public async Task<string> AddBillboardObject(BillboardDto billboard)
         {
-            //revisar
-            var movieId = await _dbContext.Movie.FindAsync(billboard.MoviesId);
 
-            var actorId = await  _dbContext.Actor.FindAsync(billboard.ActorsId);
+            var movie = await _dbContext.Movie.FindAsync(billboard.MoviesId);
 
-            var movie = new SqlParameter("@movieId", movieId.Id);
+            var actor = await _dbContext.Actor.FindAsync(billboard.ActorsId);
 
-            var actor = new SqlParameter("@actorId", actorId.Id);
-            
-            var data=await _dbContext.Database.ExecuteSqlRawAsync("AddMoviesAndActors @movieId,@actorId",movie,actor);
+            if (movie != null && actor != null)
+            {
+                var movieId = new SqlParameter("@movieId", movie.Id);
 
-            return data;
-
+                var actorId = new SqlParameter("@actorId", actor.Id);
+                
+                var query = await _dbContext.Database.ExecuteSqlRawAsync("AddMoviesAndActors @movieId,@actorId", movieId, actorId);
+                if(query != -1 ) {
+                    return "Query no se hizo satisfactoriamente";
+                }
+                return  "Agregado exitosamente";              
+            }
+            else
+            {
+                return "Hubo un error";
+            }
         }
 
         public async Task<string> UpdateBillboard(int e, BillboardDto billboard)

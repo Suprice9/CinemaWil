@@ -22,15 +22,19 @@ namespace Infractructure.Services.JWT
             _configuration = configuration;
         }
 
-        public Auth AutenticateUser(AuthDto user)
+        public Auth AutenticateUser(Auth user)
         {
-            Auth _user = null;
-            if (user.Name=="admin" && user.PassCode=="admin")
+          
+
+            if (user.Admin == true)
             {
-               _user=new Auth { Admin = true };
+                return user;
+            }
+            else{
+                return null;
             }
 
-            return _user; 
+           
         }
 
         public string GenerateToken(Auth user)

@@ -10,7 +10,7 @@ namespace Domain.Interface.JWT
 {
     public interface IAuthServices
     {
-        Auth AutenticateUser(AuthDto user);
+        Auth AutenticateUser(Auth user);
 
         string GenerateToken(Auth user);
     }

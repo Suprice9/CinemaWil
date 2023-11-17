@@ -23,7 +23,9 @@ namespace CinemaWil.Controllers
             _billboardServices = billboardServices;
         }
 
-
+        /// <summary>
+        /// Retorna toda las carteleras.
+        /// </summary>
         /// <response code="200">OK. Se retornaron correctamente las carteleras.</response>        
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="524">DatabaseEmpty. La Base de datos esta vacia.</response>
@@ -45,16 +47,17 @@ namespace CinemaWil.Controllers
         {
             try
             {
+                var response = await _billboardServices.AddBillboardObject(addBillboard);
 
-                if (addBillboard is null)
+                if (response == "Agregado exitosamente")
                 {
-                    return BadRequest(400);
+                    return Ok(response); 
                 }
                 else
                 {
-                    await _billboardServices.AddBillboardObject(addBillboard);
+                    return BadRequest(400);
                 }
-                return Ok("Se ha creado correctamente");
+               
 
             }
             catch (Exception e)

@@ -16,10 +16,14 @@ namespace CinemaWil.Controllers.JWT
             _authServices = authServices;
         }
 
-
+        /// <summary>
+        /// Verificar autorizacion.
+        /// </summary>
+        /// <response code="200">OK. Se creo el token correctamente .</response>        
+        /// <response code="401">Unauthorized.No tiene autorizacion.</response>              
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(AuthDto auth)
+        public IActionResult Login(Auth auth)
         {
             try
             {
