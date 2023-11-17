@@ -77,7 +77,6 @@ namespace CinemaWil.Controllers
         /// <response code="404">NotFound. El id del actor no existe.</response>        
         /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
         [HttpPut]
-        //Documentar
         public async Task<IActionResult> UpdateActor(int code,ActorDto actor)
         {
             try
@@ -126,7 +125,7 @@ namespace CinemaWil.Controllers
                 else
                 {
                     {
-                        return BadRequest();
+                        return BadRequest(404);
                     }
                 }
 

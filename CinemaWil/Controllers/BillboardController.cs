@@ -126,7 +126,7 @@ namespace CinemaWil.Controllers
                 else
                 {
                     {
-                        return BadRequest();
+                        return BadRequest(404);
                     }
                 }
 

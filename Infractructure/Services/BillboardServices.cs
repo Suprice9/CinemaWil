@@ -1,6 +1,7 @@
 ﻿using Domain.Dtos;
 using Domain.Interface;
 using Domain.Models;
+using Domain.Dtos;
 using Infractructure.Data;
 using Mapster;
 using Microsoft.Data.SqlClient;
@@ -21,6 +22,17 @@ namespace Infractructure.Services
         public async Task<List<Billboard>> GetBillboard()
         {
             var billboards = await _dbContext.Billboard.ToListAsync();
+
+            
+
+            foreach(var b in billboards){
+                var movie = await _dbContext.Movie.FindAsync(b.MoviesId);
+
+                var actor = await _dbContext.Actor.FindAsync(b.ActorsId);
+
+                b.Movie = movie;
+                b.Actor = actor;
+            }
 
             return billboards;
         }
