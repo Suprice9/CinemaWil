@@ -3,13 +3,8 @@ using Domain.Interface;
 using Domain.Models;
 using Infractructure.Data;
 using Mapster;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infractructure.Services
 {
@@ -30,14 +25,20 @@ namespace Infractructure.Services
             return billboards;
         }
 
-        public async Task AddBillboardObject(BillboardDto billboard)
+        public async Task<int>AddBillboardObject(BillboardDto billboard)
         {
             //revisar
             var movieId = await _dbContext.Movie.FindAsync(billboard.MoviesId);
 
-            var actorId = await _dbContext.Actor.FindAsync(billboard.ActorsId);
+            var actorId = await  _dbContext.Actor.FindAsync(billboard.ActorsId);
 
-            _dbContext.Billboard.FromSqlRaw($"AddMoviesAndActors {movieId}, {actorId}");
+            var movie = new SqlParameter("@movieId", movieId.Id);
+
+            var actor = new SqlParameter("@actorId", actorId.Id);
+            
+            var data=await _dbContext.Database.ExecuteSqlRawAsync("AddMoviesAndActors @movieId,@actorId",movie,actor);
+
+            return data;
 
         }
 
