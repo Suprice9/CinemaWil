@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,6 +42,14 @@ namespace Infractructure.Services.JWT
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, "user_name"),
+                new Claim(JwtRegisteredClaimNames.Email, "user_email"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("role","admin"),
+                new Claim(ClaimTypes.NameIdentifier,"admin") };
+         
 
             var token = new JwtSecurityToken(_configuration["Jw:Issuer"], _configuration["Jwt:Audience"], null,
                 expires: DateTime.Now.AddMinutes(1),

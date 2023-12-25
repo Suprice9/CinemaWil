@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaWil.Controllers.JWT
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
