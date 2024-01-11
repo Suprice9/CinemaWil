@@ -23,7 +23,6 @@ namespace CinemaWilWeb1.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                user.Admin = true;
                 StringContent stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
                 var response = await httpClient.PostAsync("https://localhost:7048/api/auth/Login", stringContent);
@@ -47,7 +46,7 @@ namespace CinemaWilWeb1.Controllers
         public IActionResult Logoff()
         {
             HttpContext.Session.Clear();//Clean token
-            return Redirect("~/Dashboard/Index");
+            return Redirect("~/Login/LoginCreate");
         }
     }
 }

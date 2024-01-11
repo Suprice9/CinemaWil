@@ -1,3 +1,8 @@
+using CinemaWilWeb1.Interfase;
+using CinemaWilWeb1.Services;
+using Domain.Interface;
+using Infractructure.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +12,10 @@ builder.Services.AddSession(option =>
 {
     option.IdleTimeout = TimeSpan.FromMinutes(5);
 });
+
+
+builder.Services.AddScoped<IApiConsume,ApiCosumeServices>();
+
 
 var app = builder.Build();
 

@@ -1,18 +1,19 @@
 ﻿using CinemaWilWeb.ViewModel;
-using Domain.Models;
-using Microsoft.AspNetCore.Http;
+using CinemaWilWeb1.Interfase;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Reflection.PortableExecutable;
-using System.Text.Json.Serialization;
+
 
 namespace CinemaWilWeb1.Controllers
 {
     public class ActorController : Controller
     {
+        private readonly IApiConsume _ApiConsume;
+
+        public ActorController(IApiConsume ApiConsume)
+        {
+            _ApiConsume = ApiConsume;
+        }
+
         Uri baseAddress = new Uri("https://localhost:7048/api/Actor/GetActors");
 
         public async Task<ActionResult> Index()
@@ -21,32 +22,15 @@ namespace CinemaWilWeb1.Controllers
             return View(actors);
         }
 
-            private static String RemoveEnd(String str, int len)
-            {
-                if (str.Length < len)
-                {
-                    return string.Empty;
-                }
-
-                return str[..^len];
-            }
-        
 
         public async Task<List<ActorViewModel>>GetActors()
         {
-            var accessToken = HttpContext.Session.GetString("JWToken").Remove(0,10);
+            var Apiconsume =await _ApiConsume.GetAutorization(HttpContext);
 
-            var cleanToken= RemoveEnd(accessToken, 2);
+            var actors = await _ApiConsume.GetActors(baseAddress,Apiconsume);
 
-
-            var url = baseAddress;
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer",cleanToken);
-            string jsonStr = await client.GetStringAsync(url);
-
-            var res = JsonConvert.DeserializeObject<List<ActorViewModel>>(jsonStr).ToList();
-
-            return res;
+            return actors;
+           
         }
 
 
