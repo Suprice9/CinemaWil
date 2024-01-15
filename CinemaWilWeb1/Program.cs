@@ -1,7 +1,12 @@
+using CinemaWilWeb1.Configuration;
 using CinemaWilWeb1.Interfase;
 using CinemaWilWeb1.Services;
 using Domain.Interface;
+using Domain.Interface.JWT;
+using Infractructure.Data;
 using Infractructure.Services;
+using Infractructure.Services.JWT;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +18,11 @@ builder.Services.AddSession(option =>
     option.IdleTimeout = TimeSpan.FromMinutes(5);
 });
 
+builder.Services.AddDbContext<DataBaseContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
 
-builder.Services.AddScoped<IApiConsume,ApiCosumeServices>();
+
+builder.Services.GetDependencyInjectionsWeb();
 
 
 var app = builder.Build();

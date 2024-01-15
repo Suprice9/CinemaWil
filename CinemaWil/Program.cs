@@ -18,6 +18,7 @@ builder.Services.JWTConfig(builder);
 
 builder.Services.AddDbContext<DataBaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
+builder.Services.AddMemoryCache();
 
 
 // Add services to the container.

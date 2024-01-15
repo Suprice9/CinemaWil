@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Domain.Models;
-
+using Domain.Models.JWT;
 
 namespace Infractructure.Data
 {
@@ -13,6 +13,8 @@ namespace Infractructure.Data
 
         public DbSet<Billboard> Billboard { get; set; }
 
+        public DbSet<Auth> Auths { get; set; }
+
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
         }
@@ -24,6 +26,8 @@ namespace Infractructure.Data
             modelBuilder.Entity<Movie>().Property(p => p.Id).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Billboard>().Property(p => p.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Auth>().Property(p => p.Id).ValueGeneratedOnAdd();
 
             base.OnModelCreating(modelBuilder);
         }

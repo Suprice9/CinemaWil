@@ -11,5 +11,7 @@ namespace Domain.Dtos.JWT
         public string Name { get; set; }
 
         public string PassCode { get; set; }
+
+        public bool Admin { get; set; }
     }
 }

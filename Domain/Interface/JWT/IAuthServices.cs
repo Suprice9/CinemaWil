@@ -1,10 +1,6 @@
 ﻿using Domain.Dtos.JWT;
 using Domain.Models.JWT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Domain.Interface.JWT
 {
@@ -13,5 +9,10 @@ namespace Domain.Interface.JWT
         Auth AutenticateUser(Auth user);
 
         string GenerateToken(Auth user);
+
+        Task createUser(AuthDto user);
+
+        string IsAdminOrNot(Auth user);
+        Task<Auth> loginUser(AuthDto user);
     }
 }

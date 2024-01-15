@@ -3,14 +3,12 @@ using Domain.Interface.JWT;
 using Domain.Models.JWT;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using Mapster;
+using Infractructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infractructure.Services.JWT
 {
@@ -18,9 +16,12 @@ namespace Infractructure.Services.JWT
     {
         private IConfiguration _configuration;
 
-        public AuthServices(IConfiguration configuration)
+        private readonly DataBaseContext _dbContext;
+
+        public AuthServices(IConfiguration configuration, DataBaseContext dbContext)
         {
             _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         public Auth AutenticateUser(Auth user)
@@ -36,6 +37,56 @@ namespace Infractructure.Services.JWT
             }
 
            
+        }
+
+        public async Task createUser(AuthDto user)
+        {
+            var result = user.Adapt<Auth>();
+            await _dbContext.Auths.AddAsync(result);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Auth> loginUser(AuthDto user)
+        {
+            try
+            {
+                var UserDb = await _dbContext.Auths.FirstAsync(p=>p.Name==user.Name && p.PassCode==user.PassCode);
+                if (UserDb is null)
+                { 
+                    return null; 
+                }
+                else{
+                    return UserDb;
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public string IsAdminOrNot(Auth User){
+
+         var UserPosition = User.Admin;
+
+            if (UserPosition is false)
+            {
+                return "No encontrado";
+
+            }
+            else
+            {
+                if (UserPosition is true)
+                {
+                    return "Es admin";
+                }
+                else
+                {
+                    return "No es Admin";
+                }
+            }
         }
 
         public string GenerateToken(Auth user)
@@ -57,5 +108,7 @@ namespace Infractructure.Services.JWT
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
     }
 }
