@@ -75,12 +75,8 @@ namespace CinemaWilWeb1.Controllers
 
         public async Task<ActionResult> CreateUserPost(AuthDto user)
         {
-     
-            
-                await _authServices.createUser(user);
-                           return Redirect("~/Login/LoginCreate"); 
-            
-            
+           await _authServices.createUser(user);
+            return Redirect("~/Login/LoginCreate");     
         }
 
 

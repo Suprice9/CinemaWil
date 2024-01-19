@@ -11,7 +11,7 @@ namespace Domain.Interface
     public interface IActorServices
     {
         Task<List<Actor>> GetActors();
-
+        Task<Actor> GetActorById(int id);
         Task<string> UpdateActor(int e, ActorDto actor);
         Task MapActorObject(ActorDto actorD);
 

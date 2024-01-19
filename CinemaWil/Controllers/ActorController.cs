@@ -34,6 +34,23 @@ namespace CinemaWil.Controllers
             return Ok(await _actorServices.GetActors());
         }
 
+        /// <param name="id">id de actor.</param>
+        /// /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
+        /// <response code="404">NotFound. El id del actor no existe.</response>        
+        /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetActorsById(int id)
+        {
+
+            try
+            {
+                return Ok(await _actorServices.GetActorById(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
 
         /// <summary>
         /// Crear un actor.
@@ -111,7 +128,7 @@ namespace CinemaWil.Controllers
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="404">NotFound.El actor no existe</response>        
         /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
-        [HttpDelete]
+        [HttpDelete("{Code}")]
         public async Task<IActionResult> DeleteActor(int Code)
         {
             try

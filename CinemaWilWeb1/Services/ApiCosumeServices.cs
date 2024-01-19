@@ -1,5 +1,9 @@
 ﻿using CinemaWilWeb.ViewModel;
 using CinemaWilWeb1.Interfase;
+using Domain.Dtos;
+using Domain.Interface;
+using Domain.Models;
+using Infractructure.Services;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
@@ -7,6 +11,13 @@ namespace CinemaWilWeb1.Services
 {
     public class ApiCosumeServices : IApiConsume
     {
+
+        private readonly IActorServices _ActorServices;
+
+        public ApiCosumeServices(IActorServices actorServices) {
+            _ActorServices = actorServices; 
+        }
+
         public async Task<HttpClient> GetAutorization(HttpContext httpContext)
         {
             var accessToken = httpContext.Session.GetString("JWToken").Remove(0, 10);
@@ -51,6 +62,70 @@ namespace CinemaWilWeb1.Services
                 return null;
             }
         }
-      
+
+        public async Task<Actor> GetActorsById(Uri baseAddress, HttpClient autorization, int userId)
+        {
+            var url = baseAddress;
+            if (autorization is not null)
+            {
+                var jsonStr =  await autorization.GetStringAsync(url);
+
+                var res = JsonConvert.DeserializeObject<Actor>(jsonStr);
+                //Arreglar el delete para que funcione
+                return res;
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<HttpResponseMessage> CreateActor(Uri baseAddress, HttpClient autorization, ActorDto newActor)
+        {
+            var url = baseAddress;
+
+            var stringActor = newActor.ToString();
+            if (autorization is not null)
+            {
+
+                var jsonStr = await autorization.PostAsJsonAsync(url, newActor);
+                return jsonStr;
+            }
+            else
+            {
+                return null;
+            }
+            /*
+
+            string data = JsonConvert.SerializeObject(newActor);
+
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = autorization.PostAsync(autorization.BaseAddress + "/Actor/AddActor", content).Result;
+            return response;*/
+
+        }
+
+        public async Task<HttpResponseMessage> DeleteActor(Uri baseAddress, HttpClient autorization)
+        {
+            var url = baseAddress;
+
+            if (autorization is not null)
+            {
+                //Crear Metodo para eliminar 
+                var jsonStr = await autorization.DeleteAsync(url);
+                return jsonStr;
+            }
+            else
+            {
+                return null;
+            }
+           
+        }
+
+
+
     }
 }

@@ -1,3 +1,4 @@
+using CinemaWil.Configuration;
 using CinemaWilWeb1.Configuration;
 using CinemaWilWeb1.Interfase;
 using CinemaWilWeb1.Services;
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<DataBaseContext>(options =>
 
 
 builder.Services.GetDependencyInjectionsWeb();
+builder.Services.GetDependencyInjections();
 
 
 var app = builder.Build();

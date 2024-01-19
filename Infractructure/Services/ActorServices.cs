@@ -22,6 +22,13 @@ namespace Infractructure.Services
             return actors;
         }
 
+        public async Task<Actor> GetActorById(int id)
+        {
+            var actorDb = await _dbContext.Actor.FindAsync(id); 
+
+            return actorDb;
+        }
+
         public async Task MapActorObject(ActorDto actorD)
         {
             var result = actorD.Adapt<Actor>();
