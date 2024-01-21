@@ -64,7 +64,7 @@ namespace CinemaWil.Controllers
         {
             try
             {
-                
+
                 if (addActor is null)
                 {
                     return BadRequest(400);
@@ -93,7 +93,7 @@ namespace CinemaWil.Controllers
         /// <response code="401">Unauthorized. No se ha indicado o es incorrecto el Token JWT de acceso.</response>              
         /// <response code="404">NotFound. El id del actor no existe.</response>        
         /// <response code="500">Internal Server Error. Ocurrio un error imprevisto.</response>
-        [HttpPut]
+        [HttpPut("{code}")]
         public async Task<IActionResult> UpdateActor(int code,ActorDto actor)
         {
             try

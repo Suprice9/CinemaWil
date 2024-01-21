@@ -15,6 +15,8 @@ namespace CinemaWilWeb1.Interfase
 
         Task<HttpResponseMessage> CreateActor(Uri baseAddress, HttpClient autorization, ActorDto actor);
 
+        Task<HttpResponseMessage> UpdateActor(string baseAdress, HttpClient autorization,ActorDto actor, int id);
+
         Task<HttpResponseMessage> DeleteActor(Uri baseAddress, HttpClient autorization);
         }
     

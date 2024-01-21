@@ -29,31 +29,36 @@ namespace CinemaWilWeb1.Controllers
             { 
                 var httpClient = new HttpClient();
 
-                var UserDb = await _authServices.loginUser(user);
-
-                StringContent stringContent = new StringContent(JsonConvert.SerializeObject(UserDb), Encoding.UTF8, "application/json");
-
-                var response = await httpClient.PostAsync("https://localhost:7048/api/auth/Login", stringContent);
-
-                string token = await response.Content.ReadAsStringAsync();
-
-                var UserPosition =  _authServices.IsAdminOrNot(UserDb);
-
-
-                if (UserPosition== "Es admin")
-                {  
-                    HttpContext.Session.SetString("JWToken", token);
-
-                    return Redirect("~/Actor/Index");
-                }
-                else if (UserPosition == "No es Admin")
+                if (user.Name == null || user.PassCode == null)
                 {
-                    return Redirect("~/Dashboard/Index");
+                    ViewBag.Message = "Incorrect UserName or Password";
+                    return Redirect("~/Login/LoginCreate");
                 }
                 else
                 {
-                        ViewBag.Message = "Incorrect UserName or Password";
-                        return Redirect("~/Login/LoginCreate");
+
+                    var UserDb = await _authServices.loginUser(user);
+
+                    StringContent stringContent = new StringContent(JsonConvert.SerializeObject(UserDb), Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.PostAsync("https://localhost:7048/api/auth/Login", stringContent);
+
+                    string token = await response.Content.ReadAsStringAsync();
+
+                    var UserPosition = _authServices.IsAdminOrNot(UserDb);
+
+
+                    if (UserPosition == "Es admin")
+                    {
+                        HttpContext.Session.SetString("JWToken", token);
+
+                        return Redirect("~/Actor/Index");
+                    }
+                    else
+                    {
+                        return Redirect("~/Dashboard/Index");
+                    }
+                   
                 }
             }
             catch

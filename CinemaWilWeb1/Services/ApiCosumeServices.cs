@@ -6,6 +6,7 @@ using Domain.Models;
 using Infractructure.Services;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 namespace CinemaWilWeb1.Services
 {
@@ -97,15 +98,19 @@ namespace CinemaWilWeb1.Services
             {
                 return null;
             }
-            /*
 
-            string data = JsonConvert.SerializeObject(newActor);
+        }
 
-            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+        public async Task<HttpResponseMessage> UpdateActor(string baseAdress, HttpClient autorization,ActorDto actor, int id)
+        {
+            var url = baseAdress;
 
-            HttpResponseMessage response = autorization.PostAsync(autorization.BaseAddress + "/Actor/AddActor", content).Result;
-            return response;*/
-
+            if (autorization is not null)
+            {
+                var response =await autorization.PutAsJsonAsync(url+id,actor);
+                return response;
+            }
+            return null;
         }
 
         public async Task<HttpResponseMessage> DeleteActor(Uri baseAddress, HttpClient autorization)

@@ -18,10 +18,10 @@ namespace CinemaWilWeb1.Controllers
 
         }
 
-        Uri UrlGetUser = new Uri("https://localhost:7048/api/Actor/GetActors/");
+        Uri UrlGetUser = new Uri("https://localhost:7048/api/Actor/GetActors");
         Uri urlGetUserId = new Uri("https://localhost:7048/api/Actor/GetActorsById/");
-        Uri UrlPostUser = new Uri("https://localhost:7048/api/Actor/AddActor/");
-        Uri urlPutUser = new Uri("https://localhost:7048/api/Actor/UpdateActor/");
+        Uri UrlPostUser = new Uri("https://localhost:7048/api/Actor/AddActor");
+        string urlPutUser = "https://localhost:7048/api/Actor/UpdateActor/";
         Uri urlDeleteUser = new Uri("https://localhost:7048/api/Actor/DeleteActor/");
 
 
@@ -79,22 +79,59 @@ namespace CinemaWilWeb1.Controllers
         }
 
         // GET: ActorController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ActorController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ActorDto actor = new ActorDto();
+
+                var apiConsume = await _ApiConsume.GetAutorization(HttpContext);
+
+                var response = apiConsume.GetAsync("https://localhost:7048/api/Actor/GetActorsById/" + id).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = response.Content.ReadAsStringAsync().Result;
+                    actor = JsonConvert.DeserializeObject<ActorDto>(data);
+                }
+                return View(actor);
+
             }
-            catch
+            catch (Exception ex)
             {
+
+                TempData["errorMessage"] = ex.Message;
+                return View();
+            }
+        }
+
+        // POST: ActorController/Edit/5
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async  Task<ActionResult> Edit(int id,ActorDto actor)
+        {
+            try
+            {
+                var apiConsume = await _ApiConsume.GetAutorization(HttpContext);
+
+                var actorUpdated = await _ApiConsume.UpdateActor(urlPutUser,apiConsume,actor, id);
+
+                if (actorUpdated.IsSuccessStatusCode)
+                {
+                    TempData["successMessage"] = "Actor Updated.";
+                    return Redirect("~/Actor/Index");
+
+                }
+                else
+                {
+                    return StatusCode(400);
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
                 return View();
             }
         }
@@ -104,7 +141,7 @@ namespace CinemaWilWeb1.Controllers
         {
             try
             {
-                ActorViewModel actor = new ActorViewModel();
+                ActorDto actor = new ActorDto();
 
                 var apiConsume = await _ApiConsume.GetAutorization(HttpContext);
 
@@ -113,7 +150,7 @@ namespace CinemaWilWeb1.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     string data = response.Content.ReadAsStringAsync().Result;
-                    actor = JsonConvert.DeserializeObject<ActorViewModel>(data);
+                    actor = JsonConvert.DeserializeObject<ActorDto>(data);
                 }
                 return View(actor);
 
